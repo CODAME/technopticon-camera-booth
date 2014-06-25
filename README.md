@@ -1,2 +1,2 @@
-art-tech-videobooth
+ART+TECH Camera booth
 ===================
