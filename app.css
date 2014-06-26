@@ -1,0 +1,183 @@
+@font-face {
+  font-family: 'Akkurat-Bold';
+  src: url('fonts/Akkurat-Bold.eot?') format('eot'), 
+       url('fonts/Akkurat-Bold.woff') format('woff')
+}
+
+@font-face {
+  font-family: 'AkkuratLightPro-Italic';
+  src: url('fonts/AkkuratLightPro-Italic.eot?') format('eot'), 
+       url('fonts/AkkuratLightPro-Italic.woff') format('woff')
+}
+
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  overflow: hidden;
+
+  font-family: 'AkkuratLightPro-Italic';
+  text-shadow: 0px 3px 0 #d600e6, 3px 0px 0 #74cafb;
+  letter-spacing: .50em;
+}
+
+#webgl-canvas {
+  transform: rotateY(180deg);
+  -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+  -moz-transform:rotateY(180deg); /* Firefox */
+}
+
+.container {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+}
+
+#logo {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+}
+
+#instructions {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  text-align: center;
+  font-size: 60px;
+  background-color: black;
+  color: white;
+  z-index: 7;
+  padding: 15px;
+  font-family: 'Akkurat-Bold';
+  letter-spacing: .3em;
+}
+
+#instructions .small {
+  font-family: 'AkkuratLightPro-Italic';
+  font-size: 0.5em;
+}
+
+#all-url {
+  margin-top: 10px;
+  font-family: 'AkkuratLightPro-Italic';
+  font-size: 0.3em;
+  letter-spacing: 3px;
+  text-shadow: none;
+}
+
+#progress {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: #d900f9;
+  height: 5%;
+  width: 0px;
+  z-index: 10;
+}
+
+#message {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: table;
+  z-index: 3;
+}
+
+#message-inner {
+  display: table-cell;
+  vertical-align: middle;
+  width: 50%;
+  text-align: center;
+}
+
+#message-text {
+  display: inline-block;
+  font-size: 60px;
+  background-color: black;
+  color: white;
+  padding: 30px;
+  font-family: 'AkkuratLightPro-Italic';
+}
+
+#count {
+  font-size: 150px;
+  display: block;
+  font-style: italic;
+  color: #7DD7FD;
+  font-family: 'Akkurat-Bold';
+}
+
+#video-container { 
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+}
+
+video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#record-button {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  z-index: 999;
+}
+
+#indicator {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  opacity: 0;
+  z-index: 3;
+}
+
+#record-button[disabled] {
+  opacity: 0.5;
+}
+
+#gifs-go-here {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  left: 0px;
+  z-index: 2;
+  display: none;
+}
+
+#gifs-go-here .image-container {
+  float: left;
+  width: 25%;
+  position: relative;
+}
+
+.image-container img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.image-container .post-id {
+  font-size: 20px;
+  background-color: black;
+  color: white;
+  padding: 10px;
+}
