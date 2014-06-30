@@ -1,3 +1,5 @@
+var VIDEO_FPS = 10;
+
 var WIDTH = 200;
 var HEIGHT = 150;
 
@@ -22,6 +24,7 @@ function CameraFX(_video){
 	loadShaders(function(){
 		init();
 		animate();
+		setInterval(animate, 1000/VIDEO_FPS);
 	});
 }
 
@@ -93,7 +96,7 @@ function init() {
 
 function animate() {
 
-	shaderTime += 0.1;
+	shaderTime += (60/VIDEO_FPS)*0.1;
 	badTVPass.uniforms['uTime'].value =  shaderTime;
 	rgbPass.uniforms['uTime'].value   =  shaderTime;
 
@@ -101,7 +104,7 @@ function animate() {
 		if ( videoTexture ) videoTexture.needsUpdate = true;
 	}
 
-	requestAnimationFrame( animate );
+	//requestAnimationFrame( animate );
 	composer.render( 0.1 );
 }
 

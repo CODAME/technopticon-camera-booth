@@ -1,6 +1,7 @@
 (function () {
   "use strict";
 
+  var ALBUM_ID = 'P2TvN';
   var CLIENT_ID = 'e7fc5d0dc23ff0f';
   var CLIENT_SECRET = '67a740439c88d83f96cbec52132e5eff179487ad';
   var REFRESH_TOKEN = '0c268661c830c809fc0cba712ffac091ac93917b';
@@ -119,7 +120,8 @@
         },
         data: {
           image: base64data,
-          type: 'base64'
+          type: 'base64',
+          album: ALBUM_ID
         },
         success: function(result) {
           console.log('UPLOAD SUCCESS!');
