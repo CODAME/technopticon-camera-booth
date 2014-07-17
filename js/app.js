@@ -3,12 +3,26 @@
 
   var ALBUM_ID = 'P2TvN';
   var CLIENT_ID = 'e7fc5d0dc23ff0f';
-  var CLIENT_SECRET = '67a740439c88d83f96cbec52132e5eff179487ad';
-  var REFRESH_TOKEN = '0c268661c830c809fc0cba712ffac091ac93917b';
+  var CLIENT_SECRET = 'e11b76b04f913bde7a91ffb333a7b8d22f6e4ece';
+  var REFRESH_TOKEN = '';
   var ACCESS_TOKEN = '';
   var IS_READY = true;
 
-  if(!localStorage['REFRESH_TOKEN']){ localStorage['REFRESH_TOKEN'] = REFRESH_TOKEN; }
+  Parse.initialize("qeszFlaj8HIDyhQpDjEblNyyGlZfZzfK5mUMI1u9", "KXrBpOj1CQQFRaInkaLIv91RsaEca6LH85WkdfXC");
+  
+  var parseToken = null;
+  var Token = Parse.Object.extend("Token");
+  var query = new Parse.Query(Token);
+  query.get("raqIMbAb3c", {
+    success: function(token) {
+      parseToken = token;
+      REFRESH_TOKEN = token.get('value');
+      getNewAccessToken(null);
+    },
+    error: function(object, error) {
+      console.log(error);
+    }
+  });
 
 
   function thisBrowserIsBad() {
@@ -30,7 +44,7 @@
         Accept: 'application/json'
       },
       data: {
-        refresh_token: localStorage['REFRESH_TOKEN'],
+        refresh_token: REFRESH_TOKEN,
         client_id: CLIENT_ID,
         client_secret: CLIENT_SECRET,
         grant_type: 'refresh_token'
@@ -38,7 +52,7 @@
       success: function(result) {
         console.log('received new access token');
         console.log(result);
-        localStorage['REFRESH_TOKEN'] = result.refresh_token;
+        parseToken.save({ value: result.refresh_token });
         REFRESH_TOKEN = result.refresh_token;
         ACCESS_TOKEN = result.access_token;
         IS_READY = true;
@@ -50,8 +64,6 @@
       }
     });
   }
-
-  getNewAccessToken(null);
 
   var facetogif = {
     settings: { w: WIDTH, h: HEIGHT, framerate: 1000/10, seconds: 3000, countdown: 4000 },
@@ -167,7 +179,7 @@
       IS_READY = false;
       var $recordButton = $(this);
       $recordButton.attr('disabled', true);
-      $('#gifs-go-here').fadeOut(200);
+      //$('#gifs-go-here').fadeOut(200);
       $('#instructions').fadeOut(200);
       $('#message').fadeIn(200);
 
@@ -200,17 +212,32 @@
         $('#indicator').fadeIn(200);
         $('#progress').animate({width: '100%'}, facetogif.settings.seconds);
         recorder.start();
+
+        var thresholdCounter = 0;
+        var thresholdInterval = setInterval(function(){
+          if(thresholdCounter < 1500){
+            window.THRESHOLD += 0.01;
+          }else{
+            window.THRESHOLD -= 0.01;
+          }
+          
+          thresholdCounter += 100;
+        }, 100);
         
         //wait 3 seconds then compile
         console.log('compiling in 3...2...1');
         setTimeout(function(){
+          clearInterval(thresholdInterval);
+          window.THRESHOLD = (Math.random()*.2)+0.07;
+          window.USE_RGB_SHIFT = Math.random() > 0.5 ? true : false;
+          window.USE_HUE_SHIFT = Math.random() > 0.5 ? true : false;
+
           $('#message-text').text('COMPILING!');
           $('#message').fadeIn(200);
           $('#indicator').fadeOut(200);
           
           recorder.pause();
           recorder.compile(function (blob) {
-            renderer.setSize(window.innerWidth, window.innerHeight);
             var img = document.createElement('img');
             img.src = URL.createObjectURL(blob);
             img.dataset.blobindex = facetogif.blobs.push(blob) -1;

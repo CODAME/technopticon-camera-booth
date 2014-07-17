@@ -28,19 +28,20 @@
           </svg>
         </div>
       </div>
-      <output id="gifs-go-here"></output>
     </div>
+    <output id="gifs-go-here"></output>
 
-  <script src="./js/camerafx/vendor/three.min.js"></script>
-  <script src="./js/camerafx/vendor/CopyShader.js"></script>
-  <script src="./js/camerafx/vendor/MaskPass.js"></script>
-  <script src="./js/camerafx/vendor/EffectComposer.js"></script>
-  <script src="./js/camerafx/vendor/RenderPass.js"></script>
-  <script src="./js/camerafx/vendor/ShaderPass.js"></script>
-  <script src="./js/camerafx/camerafx.js"></script>
+    <script src="./js/camerafx/vendor/three.min.js"></script>
+    <script src="./js/camerafx/vendor/CopyShader.js"></script>
+    <script src="./js/camerafx/vendor/MaskPass.js"></script>
+    <script src="./js/camerafx/vendor/EffectComposer.js"></script>
+    <script src="./js/camerafx/vendor/RenderPass.js"></script>
+    <script src="./js/camerafx/vendor/ShaderPass.js"></script>
+    <script src="./js/camerafx/camerafx.js"></script>
 
-  <script src="js/vendor/jquery-1.11.0.min.js"></script>
-  <script src="js/vendor/gif.js"></script>
-  <script src="js/app.js?v=1"></script>
+    <script src="js/vendor/jquery-1.11.0.min.js"></script>
+    <script src="js/vendor/gif.js"></script>
+    <script src="js/vendor/parse.js"></script>
+    <script src="js/app.js?v=1"></script>
   </body>
 </html>

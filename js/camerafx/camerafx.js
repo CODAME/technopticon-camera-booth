@@ -1,19 +1,25 @@
 var VIDEO_FPS = 10;
-
 var WIDTH = 200;
 var HEIGHT = 150;
 
-var camera, scene, renderer;
-var video, videoTexture;
-var composer;
-var shaderTime = 0;
-var badTVPass;	
-var rgbPass;
+var RESOLUTION = 512; //power of 2
+var MOUSE = { x: 0, y: 0 };
+var CLOCK = new THREE.Clock();
+var BUFFER_STATE = 0;
+var USE_MIC = false;
+var USE_FULL_FPS = true;
+
+window.THRESHOLD = 0.05;
+window.SHIFT = 10.0;
+window.USE_RGB_SHIFT = true;
+window.USE_HUE_SHIFT = true;
+
+var canvas, video, videoTextureCurrent, videoTextureStill, simUniforms, simScene, simBuffer, backBuffer, displayScene, camera, renderer, outQuad;
+var mic = null;
 
 var shaders = {
     vertex: '',
-    badtv: '',
-    rgbshift: ''
+    datamosh: ''
 };
 
 function CameraFX(_video){
@@ -23,8 +29,27 @@ function CameraFX(_video){
 	
 	loadShaders(function(){
 		init();
-		animate();
-		setInterval(animate, 1000/VIDEO_FPS);
+		takeStill();
+		
+		if(USE_FULL_FPS){
+			requestAnimationFrame(animate);
+		}else{
+			animate();
+			setInterval(animate, 1000/VIDEO_FPS);
+		}
+
+
+		if(USE_MIC){
+			mic = new Microphone();
+	  		mic.initialize();
+
+	  		var waitForMic = setInterval(function(){
+	  			if(mic.isInitialized()){
+	  				clearInterval(waitForMic);
+	    			mic.startListening();
+	  			}
+	  		}, 300);
+		}
 	});
 }
 
@@ -54,41 +79,47 @@ function loadShaders( callback ) {
 
 function init() {
 
-	var uniforms = {
-		"tDiffuse": { type: "t", value: null },
-		"uTime":     { type: "f", value: 0.0 }
-	}
-
-	camera = new THREE.Camera();
-	scene = new THREE.Scene();
+	camera = new THREE.OrthographicCamera( -1, 1, 1, -1, 0, 1 );
 	renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true });
+	canvas = renderer.domElement;
+	document.body.appendChild(canvas);
+	renderer.autoClear = false;
 	renderer.domElement.id = "webgl-canvas";
 	renderer.setSize(WIDTH, HEIGHT);
 	document.getElementById('video-container').appendChild( renderer.domElement );
 
+	simBuffer =  new THREE.WebGLRenderTarget( RESOLUTION, RESOLUTION, { minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter, format: THREE.RGBAFormat } );
+	backBuffer = new THREE.WebGLRenderTarget( RESOLUTION, RESOLUTION, { minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter, format: THREE.RGBAFormat } );
+
+	simScene = new THREE.Scene();
+	displayScene = new THREE.Scene();
+
 	//init video texture
-	videoTexture = new THREE.Texture( video );
-	videoTexture.minFilter = THREE.LinearFilter;
-	videoTexture.magFilter = THREE.LinearFilter;
-	var videoMaterial = new THREE.MeshBasicMaterial( { map: videoTexture } );
+	videoTextureCurrent = new THREE.Texture( video );
+	videoTextureCurrent.minFilter = THREE.LinearFilter;
+	videoTextureCurrent.magFilter = THREE.LinearFilter;
 
-	//Add video plane
-	var planeGeometry = new THREE.PlaneGeometry( 2, 2, 0 );
-	var plane = new THREE.Mesh( planeGeometry, videoMaterial );
-	scene.add( plane );
+	//init video texture
+	videoTextureStill = videoTextureCurrent.clone();
 
-	//POST PROCESSING
-	//Create Shader Passes
-	badTVPass     = new THREE.ShaderPass( { uniforms: uniforms,  vertexShader: shaders.vertex, fragmentShader: shaders.badtv } );
-	rgbPass       = new THREE.ShaderPass( { uniforms: uniforms , vertexShader: shaders.vertex, fragmentShader: shaders.rgbshift } );
+	simUniforms = { 
+		"currentFrame" : { type: "t",  value: videoTextureCurrent },
+		"backbuffer"   : { type: "t",  value: backBuffer },
+		"resolution"   : { type: "v2", value: new THREE.Vector2(RESOLUTION, RESOLUTION) },
+		"threshold"    : { type: "f", value: window.THRESHOLD },
+		"time"         : { type: "f", value: 0 },
+		"shift"        : { type: "f", value: window.SHIFT },
+		"USE_RGB_SHIFT": { type: "i", value: window.SHIFT },
+		"USE_HUE_SHIFT": { type: "i", value: window.SHIFT }
+	};
 
-	//Add Shader Passes to Composer
-	//order is important 
-	composer = new THREE.EffectComposer( renderer );
-	composer.addPass( new THREE.RenderPass( scene, camera ) );
-	composer.addPass( badTVPass );
-	composer.addPass( rgbPass );
-	rgbPass.renderToScreen = true;
+	var simQuad = new THREE.Mesh( new THREE.PlaneGeometry( 2, 2 ), new THREE.ShaderMaterial({ uniforms: simUniforms, vertexShader: shaders.vertex, fragmentShader: shaders.datamosh }) );
+	simScene.add(simQuad);
+	simScene.add(camera);
+
+	outQuad = new THREE.Mesh( new THREE.PlaneGeometry( 2, 2 ), new THREE.MeshBasicMaterial({ map: simBuffer }) );
+	displayScene.add(outQuad);
+	displayScene.add(camera);
 
 	window.addEventListener('resize', onResize, false);
 	onResize();
@@ -96,20 +127,39 @@ function init() {
 
 function animate() {
 
-	shaderTime += (60/VIDEO_FPS)*0.1;
-	badTVPass.uniforms['uTime'].value =  shaderTime;
-	rgbPass.uniforms['uTime'].value   =  shaderTime;
-
-	if ( video.readyState === video.HAVE_ENOUGH_DATA ) {
-		if ( videoTexture ) videoTexture.needsUpdate = true;
+	if(USE_MIC && mic && mic.isInitialized()){ 
+		window.THRESHOLD = (1-(Math.abs(mic.getMaxInputAmplitude())/120))/2;
 	}
 
-	//requestAnimationFrame( animate );
-	composer.render( 0.1 );
+	simUniforms.threshold.value = window.THRESHOLD;
+	simUniforms.shift.value = window.SHIFT;
+	simUniforms.USE_RGB_SHIFT.value = window.USE_RGB_SHIFT;
+	simUniforms.USE_HUE_SHIFT.value = window.USE_HUE_SHIFT;
+	simUniforms.time.value += 1;
+
+	if ( video.readyState === video.HAVE_ENOUGH_DATA ) { if ( videoTextureCurrent ) videoTextureCurrent.needsUpdate = true; }
+
+	if (!BUFFER_STATE) {
+		renderer.render(simScene, camera, backBuffer, false);
+		simUniforms.backbuffer.value = backBuffer;
+		BUFFER_STATE = 1;
+	} else {
+		renderer.render(simScene, camera, simBuffer, false);
+		simUniforms.backbuffer.value = simBuffer;
+		BUFFER_STATE = 0;
+	}
+
+	renderer.render(displayScene, camera);
+	if(USE_FULL_FPS){ requestAnimationFrame(animate); }
+}
+
+function takeStill() {
+	videoTextureStill.needsUpdate = true;
+	simUniforms.backbuffer.value = videoTextureStill;
 }
 
 function onResize() {
 	//renderer.setSize(window.innerWidth, window.innerHeight);
-	document.getElementById('webgl-canvas').style.width = window.innerWidth+'px';
-	document.getElementById('webgl-canvas').style.height = window.innerHeight+'px';
+	document.getElementById('webgl-canvas').style.width = '100%';
+	document.getElementById('webgl-canvas').style.height = '100%';
 }
