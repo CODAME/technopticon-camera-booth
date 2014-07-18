@@ -66,7 +66,7 @@
   }
 
   var facetogif = {
-    settings: { w: WIDTH, h: HEIGHT, framerate: 1000/10, seconds: 3000, countdown: 4000 },
+    settings: { w: WIDTH, h: HEIGHT, framerate: 1000/10, seconds: 2000, countdown: 4000 },
     canvas: null,
     video: null,
     stream: null,
@@ -93,6 +93,8 @@
       return function () {
         if (facetogif.video.src) {
           ctx.drawImage(renderer.domElement, 0, 0, facetogif.settings.w, facetogif.settings.h);
+          ctx.drawImage(document.getElementById('gif-logo'), facetogif.settings.w-20, facetogif.settings.h-20, 15, 17);
+
           var frame = ctx.getImageData(0, 0, facetogif.settings.w, facetogif.settings.h);
           frames.push(frame);
           gif.addFrame(frame, {delay: facetogif.settings.framerate});
@@ -209,15 +211,8 @@
         $('#progress').animate({width: '100%'}, facetogif.settings.seconds);
         recorder.start();
 
-        var thresholdCounter = 0;
         var thresholdInterval = setInterval(function(){
-          if(thresholdCounter < 1500){
-            window.THRESHOLD += 0.01;
-          }else{
-            window.THRESHOLD += 0.01;
-          }
-          
-          thresholdCounter += 100;
+          window.THRESHOLD += 0.02;
         }, 100);
         
         //wait 3 seconds then compile
