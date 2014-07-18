@@ -220,8 +220,13 @@
         setTimeout(function(){
           clearInterval(thresholdInterval);
           window.THRESHOLD = (Math.random()*.2)+0.07;
-          window.USE_RGB_SHIFT = Math.random() > 0.5 ? true : false;
-          window.USE_HUE_SHIFT = Math.random() > 0.5 ? true : false;
+          window.USE_RGB_SHIFT = true;
+
+          if(Math.random() > 0.5){
+            window.USE_HUE_SHIFT = true;
+          }else{
+            window.USE_HUE_SHIFT = false;
+          }
 
           $('#message-text').text('COMPILING!');
           $('#message').fadeIn(200);
