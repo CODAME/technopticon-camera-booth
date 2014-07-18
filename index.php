@@ -31,6 +31,7 @@
     </div>
     <output id="gifs-go-here"></output>
     <canvas id="gif-canvas"></canvas>
+    <img id="gif-logo" src="gif-logo.png" />
 
     <script src="./js/camerafx/vendor/three.min.js"></script>
     <script src="./js/camerafx/vendor/CopyShader.js"></script>

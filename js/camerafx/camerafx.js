@@ -1,8 +1,8 @@
 var VIDEO_FPS = 10;
-var WIDTH = 200;
-var HEIGHT = 150;
+var WIDTH = 320;
+var HEIGHT = 240;
 
-var RESOLUTION = 512; //power of 2
+var RESOLUTION = 256; //power of 2
 var MOUSE = { x: 0, y: 0 };
 var CLOCK = new THREE.Clock();
 var BUFFER_STATE = 0;
