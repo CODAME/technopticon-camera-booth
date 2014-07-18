@@ -92,11 +92,7 @@
     record: function(ctx, frames, gif) {
       return function () {
         if (facetogif.video.src) {
-          var imgData = renderer.domElement.toDataURL(); 
-          var img = document.createElement("img");
-          img.src = imgData;
-
-          ctx.drawImage(img, 0, 0, facetogif.settings.w, facetogif.settings.h);
+          ctx.drawImage(renderer.domElement, 0, 0, facetogif.settings.w, facetogif.settings.h);
           var frame = ctx.getImageData(0, 0, facetogif.settings.w, facetogif.settings.h);
           frames.push(frame);
           gif.addFrame(frame, {delay: facetogif.settings.framerate});
@@ -218,7 +214,7 @@
           if(thresholdCounter < 1500){
             window.THRESHOLD += 0.01;
           }else{
-            window.THRESHOLD -= 0.01;
+            window.THRESHOLD += 0.01;
           }
           
           thresholdCounter += 100;

@@ -2,7 +2,7 @@ var VIDEO_FPS = 10;
 var WIDTH = 200;
 var HEIGHT = 150;
 
-var RESOLUTION = 512; //power of 2
+var RESOLUTION = 1024; //power of 2
 var MOUSE = { x: 0, y: 0 };
 var CLOCK = new THREE.Clock();
 var BUFFER_STATE = 0;
@@ -85,7 +85,7 @@ function init() {
 	document.body.appendChild(canvas);
 	renderer.autoClear = false;
 	renderer.domElement.id = "webgl-canvas";
-	renderer.setSize(WIDTH, HEIGHT);
+	renderer.setSize(RESOLUTION, RESOLUTION);
 	document.getElementById('video-container').appendChild( renderer.domElement );
 
 	simBuffer =  new THREE.WebGLRenderTarget( RESOLUTION, RESOLUTION, { minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter, format: THREE.RGBAFormat } );
