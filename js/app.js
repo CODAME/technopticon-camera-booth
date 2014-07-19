@@ -221,7 +221,7 @@
         setTimeout(function(){
           clearInterval(thresholdInterval);
           // slow gpu like mac mini needs .4, fast gpu like mac pro needs .07
-          window.THRESHOLD = (Math.random()*.2)+0.4;
+          window.THRESHOLD = (Math.random()*.2)+0.5;
           window.USE_RGB_SHIFT = true;
 
           if(Math.random() > 0.5){
