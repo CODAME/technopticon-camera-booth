@@ -94,7 +94,7 @@
       return function () {
         if (facetogif.video.src) {
           ctx.drawImage(renderer.domElement, 0, 0, facetogif.settings.w, facetogif.settings.h);
-          ctx.drawImage(document.getElementById('gif-logo'), facetogif.settings.w-20, facetogif.settings.h-20, 15, 17);
+          ctx.drawImage(document.getElementById('gif-logo'), facetogif.settings.w-40, facetogif.settings.h-40, 30, 34);
 
           var frame = ctx.getImageData(0, 0, facetogif.settings.w, facetogif.settings.h);
           frames.push(frame);
