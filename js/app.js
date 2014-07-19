@@ -1,7 +1,8 @@
 (function () {
   "use strict";
 
-  var ALBUM_ID = 'P2TvN';
+  var ALBUM_ID = 'ekwA7';//codame geekdom 
+  //var ALBUM_ID = 'P2TvN';//dev 
   var CLIENT_ID = 'e7fc5d0dc23ff0f';
   var CLIENT_SECRET = 'e11b76b04f913bde7a91ffb333a7b8d22f6e4ece';
   var REFRESH_TOKEN = '';
@@ -212,14 +213,15 @@
         recorder.start();
 
         var thresholdInterval = setInterval(function(){
-          window.THRESHOLD += 0.02;
+          window.THRESHOLD += 0.09;
         }, 100);
         
         //wait 3 seconds then compile
         console.log('compiling in 3...2...1');
         setTimeout(function(){
           clearInterval(thresholdInterval);
-          window.THRESHOLD = (Math.random()*.2)+0.07;
+          // slow gpu like mac mini needs .4, fast gpu like mac pro needs .07
+          window.THRESHOLD = (Math.random()*.2)+0.4;
           window.USE_RGB_SHIFT = true;
 
           if(Math.random() > 0.5){
