@@ -1,7 +1,9 @@
-(function () {
+    (function () {
   "use strict";
 
-  var ALBUM_ID = 'ekwA7';//codame geekdom 
+
+  var ALBUM_ID = 'xTKPR';//#rackspacesolve #codame 
+  //var ALBUM_ID = 'ekwA7';//codame geekdom 
   //var ALBUM_ID = 'P2TvN';//dev 
   var CLIENT_ID = 'e7fc5d0dc23ff0f';
   var CLIENT_SECRET = 'e11b76b04f913bde7a91ffb333a7b8d22f6e4ece';
@@ -153,6 +155,9 @@
     }
   };
 
+  //*
+  //INIT BIZ
+  //*
   $(window).load(function(){
     $('#message').fadeOut(0);
     facetogif.canvas = document.createElement('canvas');
@@ -171,7 +176,10 @@
       console.log(fail);
     });
 
-    $('#record-button').click(function(){ if(IS_READY){ go(); } });
+    //mouse clicks trigger count down
+    //$('#record-button').click(function(){ if(IS_READY){ go(); } });
+
+    //keyboard press trigger count down
     $(window).keypress(function(){ if(IS_READY){ go(); } });
 
     function go(){
@@ -212,8 +220,9 @@
         $('#progress').animate({width: '100%'}, facetogif.settings.seconds);
         recorder.start();
 
+        //todo .09
         var thresholdInterval = setInterval(function(){
-          window.THRESHOLD += 0.09;
+          window.THRESHOLD += 0.09; 
         }, 100);
         
         //wait 3 seconds then compile
@@ -221,7 +230,8 @@
         setTimeout(function(){
           clearInterval(thresholdInterval);
           // slow gpu like mac mini needs .4, fast gpu like mac pro needs .07
-          window.THRESHOLD = (Math.random()*.2)+0.5;
+          // todo
+          window.THRESHOLD = (Math.random()*.4)+0.5;
           window.USE_RGB_SHIFT = true;
 
           if(Math.random() > 0.5){
