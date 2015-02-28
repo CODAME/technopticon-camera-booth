@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>face to gif</title>
+    <title>TECNOPTICON</title>
     <link href="app.css?v=1" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
@@ -10,9 +10,9 @@
     <div class="container">
       <div id="instructions">
         <img id="logo" src="logo.png" />
-        <div class="small">PRESS ANY KEY TO</div>
-        <div>GET GIF'ED!</div>
-        <div id="all-url">dollhousephotobooth.imgur.com/all/</div>
+        <div class="small">PRESS BUTTON FOR 3 SEC COUNTDOWN</div>
+        <div>TechNopTiCon</div>
+        <div id="all-url">#Launch2015 #CODAME #gif</div>
       </div>
       <div id="message">
         <div id="message-inner">
