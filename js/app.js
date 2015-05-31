@@ -29,7 +29,7 @@
 
 
   function thisBrowserIsBad() {
-    alert("dude use a different browser");
+    alert("dude use a different browser (i.e. Chrome)");
   }
 
   function getStream(callback, fail) {
