@@ -25,12 +25,11 @@ html, body {
   overflow: hidden;
   position: relative;
 
-  font-family: 'AkkuratLightPro-Italic';
-  text-shadow: 0px 3px 0 #d600e6, 3px 0px 0 #74cafb;
-  letter-spacing: .50em;
+  font-family: 'HelveticaNeue-Light';
 }
 
 /*#gif-logo { display: none; }*/
+#png-logo { opacity: 0; }
 
 #webgl-canvas {
   transform: rotateY(180deg);
@@ -56,14 +55,23 @@ html, body {
   left: 0px;
   top: 0px;
   width: 100%;
-  text-align: center;
-  font-size: 60px;
-  background-color: black;
-  color: white;
   z-index: 7;
-  padding: 15px;
-  font-family: 'Akkurat-Bold';
-  letter-spacing: .3em;
+  transition: 1s all ease-out;
+}
+
+#instructions .more-instructions {
+  position: absolute;
+  top: 300px;
+  left: 50%;
+  width: 600px;
+  padding: 40px 80px;
+  background: #000;
+  border: 10px solid #d900f9;
+  color: #fff;
+  font-size: 30px;
+  text-align: left;
+  transform: translateX(-50%);
+  transition: 1s all ease-out;
 }
 
 #instructions .small {
@@ -116,7 +124,6 @@ html, body {
 #count {
   font-size: 150px;
   display: block;
-  font-style: italic;
   color: #7DD7FD;
   font-family: 'Akkurat-Bold';
 }
@@ -176,4 +183,12 @@ video {
   background-color: black;
   color: white;
   padding: 10px;
+}
+
+.isRecording #instructions {
+  top: -500px;
+}
+.isRecording .more-instructions {
+  top: -100px;
+  opacity: 0;
 }

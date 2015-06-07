@@ -1,7 +1,21 @@
     (function () {
   "use strict";
 
-  var ALBUM_ID = 'J3xFA'; //Launch Fest 2015
+  function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
+
+  var ALBUM_ID = getParameterByName('album');
+  if (ALBUM_ID === null || ALBUM_ID === '') {
+    alert('Specify album ID in the URL, e.g. http://localhost:8888/?album=XXXXXXXX');
+    return;
+  }
+
+  console.log('>>>>>>', getParameterByName('album'));
+  // var ALBUM_ID = 'J3xFA'; //Launch Fest 2015
   // var ALBUM_ID = 'xTKPR';//#rackspacesolve #codame 
   //var ALBUM_ID = 'ekwA7';//codame geekdom 
   //var ALBUM_ID = 'P2TvN';//dev 
@@ -96,7 +110,7 @@
       return function () {
         if (facetogif.video.src) {
           ctx.drawImage(renderer.domElement, 0, 0, facetogif.settings.w, facetogif.settings.h);
-          ctx.drawImage(document.getElementById('gif-logo'), facetogif.settings.w-40, facetogif.settings.h-40, 30, 34);
+          ctx.drawImage(document.getElementById('png-logo'), facetogif.settings.w-52-10, facetogif.settings.h-8-10, 52, 8);
 
           var frame = ctx.getImageData(0, 0, facetogif.settings.w, facetogif.settings.h);
           frames.push(frame);
@@ -186,8 +200,7 @@
       IS_READY = false;
       var $recordButton = $(this);
       $recordButton.attr('disabled', true);
-      //$('#gifs-go-here').fadeOut(200);
-      $('#instructions').fadeOut(200);
+      $('body').addClass('isRecording');
       $('#message').fadeIn(200);
 
       recorder.gif = new GIF({
@@ -264,7 +277,7 @@
             $('#progress').animate({width: '0%'}, 1000);
             $('#gifs-go-here').fadeIn(200);
             $('#message').fadeOut(200);
-            $('#instructions').fadeIn(200);
+            $('body').removeClass('isRecording');
             IS_READY = true;
             recorder.upload(blob, $imageContainer);
           });

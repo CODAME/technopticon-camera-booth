@@ -9,10 +9,12 @@
   <body>
     <div class="container">
       <div id="instructions">
-        <img id="logo" src="logo.png" />
-        <div class="small">PRESS BUTTON FOR 3 SEC COUNTDOWN</div>
-        <div>TechNopTiCon</div>
-        <div id="all-url">#Launch2015 #CODAME #gif</div>
+        <img src="yxyy-banner.png" width="100%">
+        <div class="more-instructions">
+          1. Press button<br>
+          2. Dance<br>
+          3. Go to: bitly.com/yxyy-album
+        </div>
       </div>
       <div id="message">
         <div id="message-inner">
@@ -31,7 +33,7 @@
     </div>
     <output id="gifs-go-here"></output>
     <canvas id="gif-canvas"></canvas>
-    <img id="gif-logo" src="gif-logo.png" />
+    <img id="png-logo" src="yxyy-logo.png" />
 
     <script src="./js/camerafx/vendor/three.min.js"></script>
     <script src="./js/camerafx/vendor/CopyShader.js"></script>
