@@ -16,6 +16,9 @@
           3. Go to: bitly.com/yxyy-album
         </div>
       </div>
+      <div id="byline">
+        Powered by Yes! and CODAME ART+TECH
+      </div>
       <div id="message">
         <div id="message-inner">
           <div id="message-text"></div>
