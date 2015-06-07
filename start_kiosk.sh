@@ -6,7 +6,12 @@ if [ "$1" == "" ]; then
 fi
 ALBUM_ID="$1"
 
-APP_SERVER='localhost:8888'
+APP_PORT="$2"
+if [ "$2" == "" ]; then
+  APP_PORT=80
+fi
+
+APP_SERVER="localhost:$APP_PORT"
 APP_URL=http://$APP_SERVER/technopticon-camera-booth/?album=$ALBUM_ID
 
 # Go!
