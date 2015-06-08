@@ -19,6 +19,7 @@
   var REFRESH_TOKEN = '';
   var ACCESS_TOKEN = '';
   var IS_READY = true;
+  var AUDIO_PATH = 'audio/';
 
   Parse.initialize("qeszFlaj8HIDyhQpDjEblNyyGlZfZzfK5mUMI1u9", "KXrBpOj1CQQFRaInkaLIv91RsaEca6LH85WkdfXC");
   
@@ -36,6 +37,14 @@
     }
   });
 
+  var sounds = {};
+  function playSound(fileName) {
+    var sound = new Audio();
+    sound.src = AUDIO_PATH + fileName;
+    sound.play();
+
+    console.log('Playing sound:', fileName);
+  };
 
   function thisBrowserIsBad() {
     alert("dude use a different browser (i.e. Chrome)");
@@ -78,7 +87,7 @@
   }
 
   var facetogif = {
-    settings: { w: WIDTH, h: HEIGHT, framerate: 1000/10, seconds: 2000, countdown: 4000 },
+    settings: { w: WIDTH, h: HEIGHT, framerate: 1000/10, seconds: 2500, countdown: 3000 },
     canvas: null,
     video: null,
     stream: null,
@@ -204,7 +213,11 @@
       recorder.frames = [];
       recorder.ctx = facetogif.canvas.getContext('2d');
 
-      //wait 4 seconds then record
+      var numSounds = 4;
+      var which = Math.floor(Math.random()*numSounds) + 1;
+      playSound('dance'+which+'.mp3');
+
+      //wait a few seconds then record
       var count = facetogif.settings.countdown/1000;
       function countdown(){
 
