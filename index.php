@@ -11,9 +11,9 @@
       <div id="instructions">
         <img src="yxyy-banner.png" width="100%">
         <div class="more-instructions">
-          1. Press button<br>
-          2. Dance<br>
-          3. Go to: bitly.com/yxyy-album
+          1. PRESS BUTTON<br>
+          2. DANCE!<br>
+          3. GO TO: bitly.com/yxyy-album
         </div>
       </div>
       <div id="byline">
@@ -26,13 +26,13 @@
       </div>
       <div id="progress"></div>
       <div id="video-container">
-        <button id="record-button"></button>
         <div id="indicator">
           <svg height="40" width="40">
             <circle cx="20" cy="20" r="20" fill="#d900f9" />
           </svg>
         </div>
       </div>
+      <div id="dance-strobe"></div>
     </div>
     <output id="gifs-go-here"></output>
     <canvas id="gif-canvas"></canvas>

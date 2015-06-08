@@ -14,11 +14,6 @@
     return;
   }
 
-  console.log('>>>>>>', getParameterByName('album'));
-  // var ALBUM_ID = 'J3xFA'; //Launch Fest 2015
-  // var ALBUM_ID = 'xTKPR';//#rackspacesolve #codame 
-  //var ALBUM_ID = 'ekwA7';//codame geekdom 
-  //var ALBUM_ID = 'P2TvN';//dev 
   var CLIENT_ID = 'e7fc5d0dc23ff0f';
   var CLIENT_SECRET = 'e11b76b04f913bde7a91ffb333a7b8d22f6e4ece';
   var REFRESH_TOKEN = '';
@@ -178,20 +173,15 @@
     facetogif.canvas.width = facetogif.settings.w;
     facetogif.canvas.height = facetogif.settings.h;
     facetogif.video = document.createElement('video');
-    $('#record-button').attr('disabled', true);
 
     getStream(function (stream) {
       facetogif.video.src = window.URL.createObjectURL(stream);
       CameraFX(facetogif.video);
 
       facetogif.stream = stream;
-      $('#record-button').attr('disabled', false);
     }, function (fail) {
       console.log(fail);
     });
-
-    //mouse clicks trigger count down
-    //$('#record-button').click(function(){ if(IS_READY){ go(); } });
 
     //keyboard press trigger count down
     $(window).keypress(function(){ if(IS_READY){ go(); } });
@@ -222,7 +212,7 @@
           $('#message-text').html('RECORDING IN <span id="count">'+(count-1)+'</span>');
           setTimeout(function(){ count--; countdown(); }, 1000); 
         }else{
-          $('#message-text').html('<span id="count">GO!</span>');
+          $('#message-text').html('<span id="count" class="rainbow">DANCE!</span>');
         }
       }
       countdown();
